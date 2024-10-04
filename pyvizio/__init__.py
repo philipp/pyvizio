@@ -2,7 +2,7 @@
 from asyncio import sleep
 from datetime import datetime, timedelta
 import logging
-from typing import Any, Dict, KeysView, List, Optional, Union
+from typing import Any, Dict, Tuple, List, Optional, Union
 from urllib.parse import urlsplit
 
 from aiohttp import ClientSession
@@ -547,9 +547,9 @@ class VizioAsync:
         """Asynchronously emulate key press by key name."""
         return await self.__remote(key, log_api_exception=log_api_exception)
 
-    def get_remote_keys_list(self) -> KeysView[str]:
+    def get_remote_keys_list(self) -> Optional[Dict[str, Tuple[int, int]]]:
         """Get list of remote key names."""
-        return KEY_CODE[self.device_type].keys()
+        return KEY_CODE[self.device_type]
 
     async def get_setting_types_list(
         self, log_api_exception: bool = True
@@ -1066,7 +1066,7 @@ class Vizio(VizioAsync):
         """Emulate key press by key name."""
         return await super(Vizio, self).remote(key, log_api_exception=log_api_exception)
 
-    def get_remote_keys_list(self) -> KeysView[str]:
+    def get_remote_keys_list(self) -> Optional[Dict[str, Tuple[int, int]]]:
         """Get list of remote key names."""
         return super(Vizio, self).get_remote_keys_list()
 

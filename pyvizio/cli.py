@@ -407,9 +407,13 @@ async def key_press(vizio: VizioAsync, key: str) -> None:
 
 
 @cli.command()
+@async_to_sync
 @pass_vizio
 async def get_remote_keys_list(vizio: VizioAsync) -> None:
-    table = tabulate(vizio.get_remote_keys_list(), headers=["App Name"])
+    keys_list = vizio.get_remote_keys_list()
+    table = tabulate(
+        [[k, v[0], v[1]] for k, v in keys_list.items()], headers=["Key Name", "CODESET", "CODE"]
+    )
     _LOGGER.info("\n%s", table)
 
 
